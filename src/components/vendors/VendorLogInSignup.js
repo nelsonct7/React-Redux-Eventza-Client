@@ -251,7 +251,7 @@ const VendorLogInSignup = () => {
                 fullWidth
                 id="email"
                 label="Email Address"
-                name="userEmail"
+                name="companyEmail"
                 autoComplete="email"
                 type='email'
                 validation='Please provide valid email'
@@ -264,7 +264,7 @@ const VendorLogInSignup = () => {
                 margin="normal"
                 required
                 fullWidth
-                name="userPassword"
+                name="companyPassword"
                 label="Password"
                 type="password"
                 id="password"

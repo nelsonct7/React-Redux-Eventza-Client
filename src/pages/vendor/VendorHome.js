@@ -1,9 +1,12 @@
 import React from 'react'
+import Navbar from '../../components/Navbar'
+import VendorHomeLayout from '../../components/vendors/VendorHomeLayout'
 
 function VendorHome() {
   return (
     <div>
-      <h1>Vendor Home</h1>
+      <Navbar/>
+      <VendorHomeLayout/>
     </div>
   )
 }

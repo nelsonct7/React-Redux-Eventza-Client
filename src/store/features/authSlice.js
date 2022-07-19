@@ -40,17 +40,17 @@ export const adminLogin=createAsyncThunk('auth/adminLogin',async({formData,navig
 } )
 
 
-export const vendorLogin=createAsyncThunk('auth/vendorLogin',async({formData,navigate,toast},{rejectWithValue})=>{
+export const vendorLogin=createAsyncThunk('auth/vendorLogin',async({formData,navigate},{rejectWithValue})=>{
     try{
         const responce=await api.vendorLogIn(formData)
-        navigate("/")
+        navigate("/vendorhome")
         return responce.data
     }catch(err){
         return rejectWithValue(err.responce.data)
     }
 } )
 
-export const vendorSignup=createAsyncThunk('auth/vendorSignup',async({formData,navigate,toast},{rejectWithValue})=>{
+export const vendorSignup=createAsyncThunk('auth/vendorSignup',async({formData,navigate},{rejectWithValue})=>{
     try{
         const responce=await api.vendorSignUp(formData)
         console.log(responce);
@@ -112,7 +112,33 @@ const authSlice=createSlice({
         [adminLogin.rejected]:(state,action)=>{
             state.loading=false
             state.error='Admin Log In Failed'
-        } 
+        },
+        [vendorLogin.pending]:(state,action)=>{
+            state.loading=true
+        },
+        [vendorLogin.fulfilled]:(state,action)=>{
+           
+            state.loading=false
+            localStorage.setItem('profile',JSON.stringify({...action.payload}))
+            state.user=action.payload
+        },
+        [vendorLogin.rejected]:(state,action)=>{
+            state.loading=false
+            state.error='Authentication failed'
+        } ,
+        [vendorSignup.pending]:(state,action)=>{
+            state.loading=true
+        },
+        [vendorSignup.fulfilled]:(state,action)=>{
+            state.loading=false
+            localStorage.setItem('profile',JSON.stringify({...action.payload}))
+            state.user=action.payload
+           
+        },
+        [vendorSignup.rejected]:(state,action)=>{
+            state.loading=false
+            state.error='Registration failed/User already exist'
+        },
     }
 
 }) 
