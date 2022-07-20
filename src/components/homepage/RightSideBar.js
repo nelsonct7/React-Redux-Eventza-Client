@@ -1,11 +1,13 @@
 import { Box, Typography,Avatar,AvatarGroup,ImageList,ImageListItem, } from '@mui/material'
 import React from 'react'
+import ImageListComponent from './ImageListComponent'
+
 
 const RightSideBar = () => {
   return (
       <Box flex={1} p={2}
       sx={{display:{xs:'none',sm:'block'}}}>
-        <Box sx={{position:'fixed'}}>
+        <Box sx={{position:'fixed'}} p={3}>
         <Box>
         <Typography variant={'h6'}>Followers</Typography>
         <AvatarGroup max={7}>
@@ -26,25 +28,10 @@ const RightSideBar = () => {
         <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" />
         </AvatarGroup>
         </Box>
-        {/* <Box>
-          <Typography>Recent images</Typography>
-<ImageList
-  sx={{ width: 500, height: 450 }}
-  variant="quilted"
-  cols={4}
-  rowHeight={121}
->
-  {itemData.map((item) => (
-    <ImageListItem key={item.img} cols={item.cols || 1} rows={item.rows || 1}>
-      <img
-        {...srcset(item.img, 121, item.rows, item.cols)}
-        alt={item.title}
-        loading="lazy"
-      />
-    </ImageListItem>
-  ))}
-</ImageList>
-        </Box> */}
+        <Box sx={{marginTop:5}}>
+        <Typography variant={'h6'} m={2}>Images</Typography>
+          <ImageListComponent/>
+        </Box>
         </Box>
         
       

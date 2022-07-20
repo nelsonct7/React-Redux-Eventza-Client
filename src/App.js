@@ -1,5 +1,5 @@
 import Navbar from "./components/Navbar";
-import React from "react";
+import React,{useEffect,useState} from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 
@@ -12,6 +12,24 @@ import AdminHome from "./pages/admin/AdminHome";
 import VendorHome from "./pages/vendor/VendorHome";
 
 function App() {
+  const [admin,setAdmin]=useState(null)
+  const [company,setCompany]=useState(null)
+  const [user,setUser]=useState(null)
+
+  useEffect(()=>{
+    const isAdmin=localStorage.getItem('adminProfile')
+    const isUser=localStorage.getItem('profile')
+    const isCompany=localStorage.getItem('company')
+    if(isUser){
+      setUser(JSON.parse(isUser))
+    }else if(isAdmin){
+      setAdmin(JSON.parse(isAdmin))
+    }else if(isCompany){
+      setAdmin(JSON.parse(isCompany))
+    }
+  })
+
+
   return (
 <Router>
       <Routes>

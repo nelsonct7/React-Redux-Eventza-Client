@@ -1,5 +1,5 @@
 
-import { Box, Grid, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material'
+import { Box, Grid, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography,} from '@mui/material'
 import React from 'react'
 import InboxIcon from '@mui/icons-material/Inbox';
 import DraftsIcon from '@mui/icons-material/Drafts';
@@ -10,10 +10,27 @@ import StoreRoundedIcon from '@mui/icons-material/StoreRounded';
 import PeopleAltRoundedIcon from '@mui/icons-material/PeopleAltRounded';
 import PostAddRoundedIcon from '@mui/icons-material/PostAddRounded';
 import SummarizeRoundedIcon from '@mui/icons-material/SummarizeRounded';
+import LogoutIcon from '@mui/icons-material/Logout';
+import {useNavigate} from 'react-router-dom'
+import {useSelector,useDispatch} from 'react-redux'
+import { sidebarClick } from '../../store/features/clickSlice';
+
+
 
 const Sidebar = () => {
+  const navigate=useNavigate()
+  const dispatch=useDispatch()
+  const handleLogout=()=>{
+    localStorage.removeItem('adminProfile') 
+    navigate('/adminlogin')
+  }
+
+  const handleClick=(stringValue)=>{
+    dispatch(sidebarClick(stringValue))
+  }
+
   return (
-    <Box sx={{ width: '100%', maxWidth: 200,padding:5, height:'100%',marginBottom:1,boxShadow:10,bgcolor:'#613dc1',borderRadius:2}} >
+    <Box sx={{ width: '100%', maxWidth: 200,padding:5, height:'100%',marginBottom:1,boxShadow:10,bgcolor:'#613dc1',borderRadius:2,display:{xs:'none',sm:'block',m:2}}} >
     <Box sx={{position:'fixed',}}>
     <Box sx={{p:1}}>
     <Grid container bgcolor={'#4e148c'} sx={{border:'GrayText', borderRadius:1,width:'100%',marginTop:2,height:50,p:1}}>
@@ -22,12 +39,11 @@ const Sidebar = () => {
             <Typography variant='h6'>Eventza Admin</Typography>
         
         </Grid>
-
-    </Grid>
+    </Grid> 
     </Box>
     <nav aria-label="main mailbox folders">
       <List sx={{marginTop:2}}>
-        <ListItem disablePadding>
+        <ListItem disablePadding onClick={()=>handleClick("showDash")}>
           <ListItemButton>
             <ListItemIcon>
               <DashboardCustomizeRoundedIcon />
@@ -35,7 +51,7 @@ const Sidebar = () => {
             <ListItemText primary="DashBoard" />
           </ListItemButton>
         </ListItem>
-        <ListItem disablePadding>
+        <ListItem disablePadding onClick={()=>handleClick("showManager")}>
           <ListItemButton>
             <ListItemIcon>
               <SupervisedUserCircleRoundedIcon />
@@ -43,7 +59,7 @@ const Sidebar = () => {
             <ListItemText primary="Managers" />
           </ListItemButton>
         </ListItem>
-        <ListItem disablePadding>
+        <ListItem disablePadding onClick={()=>handleClick("showCompany")}>
           <ListItemButton>
             <ListItemIcon>
               <StoreRoundedIcon />
@@ -51,7 +67,7 @@ const Sidebar = () => {
             <ListItemText primary="Companies" />
           </ListItemButton>
         </ListItem>
-        <ListItem disablePadding>
+        <ListItem disablePadding onClick={()=>handleClick("showUser")}>
           <ListItemButton>
             <ListItemIcon>
               <PeopleAltRoundedIcon />
@@ -59,7 +75,7 @@ const Sidebar = () => {
             <ListItemText primary="Users" />
           </ListItemButton>
         </ListItem>
-        <ListItem disablePadding>
+        <ListItem disablePadding onClick={()=>handleClick("showPost")}>
           <ListItemButton>
             <ListItemIcon>
               <PostAddRoundedIcon />
@@ -67,7 +83,7 @@ const Sidebar = () => {
             <ListItemText primary="Posts" />
           </ListItemButton>
         </ListItem>
-        <ListItem disablePadding>
+        <ListItem disablePadding onClick={()=>handleClick("showReports")}>
           <ListItemButton>
             <ListItemIcon>
               <SummarizeRoundedIcon />
@@ -75,11 +91,18 @@ const Sidebar = () => {
             <ListItemText primary="Reports" />
           </ListItemButton>
         </ListItem>
+        <ListItem disablePadding onClick={handleLogout}>
+          <ListItemButton>
+            <ListItemIcon>
+              <LogoutIcon />
+            </ListItemIcon>
+            <ListItemText primary="Log Out" />
+          </ListItemButton>
+        </ListItem>
       </List>
     </nav>
   </Box>
   </Box>
-  
   )
 }
 

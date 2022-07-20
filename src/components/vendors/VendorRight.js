@@ -52,7 +52,7 @@ const itemData = [
   ];
 function VendorRight() {
   return (
-    <Box flex={1} p={2} m={2}>
+    <Box flex={1} p={2} m={2} sx={{display:{xs:'none',sm:'block'}}}>
         <Box sx={{position:'fixed',bgcolor:'#f4a261',p:2,m:2,borderRadius:2}}>
         <ImageList sx={{ width: 'auto', height: 'auto' }} variant="woven" cols={3} gap={8}>
       {itemData.map((item) => (

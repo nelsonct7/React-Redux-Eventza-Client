@@ -3,9 +3,10 @@ import HomeLayout from '../components/homepage/HomeLayout'
 import Navbar from '../components/Navbar'
 
 function Home() {
+
   return (
     <>
-    <Navbar/>
+    <Navbar navColor='navy'/>
     <HomeLayout/>
     </> 
   )

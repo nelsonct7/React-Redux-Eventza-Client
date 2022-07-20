@@ -42,6 +42,7 @@ export const adminLogin=createAsyncThunk('auth/adminLogin',async({formData,navig
 
 export const vendorLogin=createAsyncThunk('auth/vendorLogin',async({formData,navigate},{rejectWithValue})=>{
     try{
+        console.log();
         const responce=await api.vendorLogIn(formData)
         navigate("/vendorhome")
         return responce.data
@@ -54,7 +55,7 @@ export const vendorSignup=createAsyncThunk('auth/vendorSignup',async({formData,n
     try{
         const responce=await api.vendorSignUp(formData)
         console.log(responce);
-            navigate("/vendorhome")
+            navigate("/loginas")
             return responce.data
 
         
@@ -86,7 +87,8 @@ const authSlice=createSlice({
         [login.rejected]:(state,action)=>{
             state.loading=false
             state.error='Authentication failed'
-        } ,
+        },
+
         [signup.pending]:(state,action)=>{
             state.loading=true
         },
@@ -100,6 +102,7 @@ const authSlice=createSlice({
             state.loading=false
             state.error='Registration failed/User already exist'
         },
+
         [adminLogin.pending]:(state,action)=>{
             state.loading=true
         },
@@ -113,26 +116,27 @@ const authSlice=createSlice({
             state.loading=false
             state.error='Admin Log In Failed'
         },
+
         [vendorLogin.pending]:(state,action)=>{
             state.loading=true
         },
         [vendorLogin.fulfilled]:(state,action)=>{
            
             state.loading=false
-            localStorage.setItem('profile',JSON.stringify({...action.payload}))
+            console.log(action.payload);
+            localStorage.setItem('company',JSON.stringify({...action.payload}))
             state.user=action.payload
         },
         [vendorLogin.rejected]:(state,action)=>{
             state.loading=false
             state.error='Authentication failed'
         } ,
+
         [vendorSignup.pending]:(state,action)=>{
             state.loading=true
         },
         [vendorSignup.fulfilled]:(state,action)=>{
             state.loading=false
-            localStorage.setItem('profile',JSON.stringify({...action.payload}))
-            state.user=action.payload
            
         },
         [vendorSignup.rejected]:(state,action)=>{
@@ -143,5 +147,4 @@ const authSlice=createSlice({
 
 }) 
 ;
-console.log(authSlice.actions);
 export default authSlice.reducer

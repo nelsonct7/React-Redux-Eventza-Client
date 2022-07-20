@@ -6,20 +6,27 @@ import StoreRoundedIcon from '@mui/icons-material/StoreRounded';
 import PeopleAltRoundedIcon from '@mui/icons-material/PeopleAltRounded';
 import PostAddRoundedIcon from '@mui/icons-material/PostAddRounded';
 import SummarizeRoundedIcon from '@mui/icons-material/SummarizeRounded';
+import LogoutIcon from '@mui/icons-material/Logout';
 import React from 'react'
+import {useNavigate} from 'react-router-dom'
 
 function VendorLeft() {
+  const navigate=useNavigate()
+  const handleLogout=()=>{
+    localStorage.removeItem('company')
+    navigate('/loginas')
+  }
   return (
-    <Box flex={1} sx={{m:2}}>
+    <Box flex={1} sx={{display:{xs:'none',sm:'block',m:2}}}>
       <Box flex={12} sx={{bgcolor:'#f4a261',position:'fixed',height:'100%',borderRadius:2,p:2}}>
       <nav aria-label="main mailbox folders">
       <List sx={{marginTop:2}}>
         <ListItem disablePadding>
-          <ListItemButton>
+          <ListItemButton> 
             <ListItemIcon>
               <DashboardCustomizeRoundedIcon />
             </ListItemIcon>
-            <ListItemText primary="DashBoard" />
+            <ListItemText primary="Home" />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
@@ -35,7 +42,7 @@ function VendorLeft() {
             <ListItemIcon>
               <StoreRoundedIcon />
             </ListItemIcon>
-            <ListItemText primary="Companies" />
+            <ListItemText primary="Profile" />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
@@ -54,12 +61,12 @@ function VendorLeft() {
             <ListItemText primary="Posts" />
           </ListItemButton>
         </ListItem>
-        <ListItem disablePadding>
+        <ListItem disablePadding onClick={handleLogout}>
           <ListItemButton>
             <ListItemIcon>
-              <SummarizeRoundedIcon />
+              <LogoutIcon />
             </ListItemIcon>
-            <ListItemText primary="Reports" />
+            <ListItemText primary="Log out" />
           </ListItemButton>
         </ListItem>
       </List>

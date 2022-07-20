@@ -12,10 +12,10 @@ export default function Listcomponent() {
     <List sx={{ width: '100%', maxWidth: 200, bgcolor:'#9f86c0', borderRadius:3}}>
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+          <Avatar alt="Remy Sharp" src="https://cdn.logojoy.com/wp-content/uploads/2018/05/30163537/7_big7.png" />
         </ListItemAvatar>
         <ListItemText
-          primary="Brunch this weekend?"
+          primary="Company"
           secondary={
             <React.Fragment>
               <Typography
@@ -24,9 +24,8 @@ export default function Listcomponent() {
                 variant="body2"
                 color="text.primary"
               >
-                Ali Connors
+                Company Name
               </Typography>
-              {" — I'll be in your neighborhood doing errands this…"}
             </React.Fragment>
           }
         />
@@ -34,7 +33,7 @@ export default function Listcomponent() {
       <Divider variant="inset" component="li" />
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
-          <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
+          <Avatar alt="Travis Howard" src="https://dcassetcdn.com/design_img/3672331/127652/127652_21325353_3672331_4533acb9_image.jpg" />
         </ListItemAvatar>
         <ListItemText
           primary="Summer BBQ"
@@ -46,9 +45,9 @@ export default function Listcomponent() {
                 variant="body2"
                 color="text.primary"
               >
-                to Scott, Alex, Jennifer
+                Company 
               </Typography>
-              {" — Wish I could come, but I'm out of town this…"}
+              
             </React.Fragment>
           }
         />
@@ -56,7 +55,7 @@ export default function Listcomponent() {
       <Divider variant="inset" component="li" />
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
-          <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
+          <Avatar alt="Cindy Baker" src="https://images-platform.99static.com//41A1yjIzR5EUzkOw7vEdOt9A5mg=/179x24:897x742/fit-in/500x500/99designs-contests-attachments/111/111202/attachment_111202231" />
         </ListItemAvatar>
         <ListItemText
           primary="Oui Oui"
@@ -68,9 +67,9 @@ export default function Listcomponent() {
                 variant="body2"
                 color="text.primary"
               >
-                Sandra Adams
+                Name
               </Typography>
-              {' — Do you have Paris recommendations? Have you ever…'}
+             
             </React.Fragment>
           }
         />
