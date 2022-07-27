@@ -1,8 +1,8 @@
 import Navbar from "./components/Navbar";
 import React,{useEffect,useState} from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route,Navigate } from "react-router-dom";
+import {useSelector,useDispatch} from 'react-redux'
 import Home from "./pages/Home";
-
 import LoginSignup from "./components/user/LoginSignup";
 import LoginAsMain from "./pages/Loginas";
 import UserLoginSignUp from "./pages/user/UserLoginSignUp";
@@ -10,26 +10,25 @@ import AdminLogInPage from "./pages/admin/AdminLogInPage";
 import VendorLogInSignUpPage from "./pages/vendor/VendorLogInSignUpPage";
 import AdminHome from "./pages/admin/AdminHome";
 import VendorHome from "./pages/vendor/VendorHome";
+import { adminTockenValidator,userTockenValidator,vendorTockenValidator } from "./store/features/authSlice";
 
 function App() {
-  const [admin,setAdmin]=useState(null)
-  const [company,setCompany]=useState(null)
-  const [user,setUser]=useState(null)
+const dispatch=useDispatch()
+const adminTocken=JSON.parse(localStorage.getItem('adminTocken'))
+const userTocken=JSON.parse(localStorage.getItem('userTocken'))
+const vendorTocken=JSON.parse(localStorage.getItem('vendorTocken'))
+useEffect(()=>{
+  if(adminTocken){
+    dispatch(adminTockenValidator({adminTocken}))
+  }
+  if(userTocken){
+    dispatch(userTockenValidator({userTocken}))
+  }
+  if(vendorTocken){
+    dispatch(vendorTockenValidator({vendorTocken}))
+  }
 
-  useEffect(()=>{
-    const isAdmin=localStorage.getItem('adminProfile')
-    const isUser=localStorage.getItem('profile')
-    const isCompany=localStorage.getItem('company')
-    if(isUser){
-      setUser(JSON.parse(isUser))
-    }else if(isAdmin){
-      setAdmin(JSON.parse(isAdmin))
-    }else if(isCompany){
-      setAdmin(JSON.parse(isCompany))
-    }
-  })
-
-
+},[])
   return (
 <Router>
       <Routes>

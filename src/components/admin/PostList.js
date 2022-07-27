@@ -10,15 +10,19 @@ import { Box, Button, Grid, Typography } from '@mui/material';
 import * as api from '../../store/api'
 import {Link} from 'react-router-dom'
 import Swal from "sweetalert2"; 
+import {useSelector,useDispatch} from 'react-redux'
+import { deletePost,changeStatus } from '../../store/features/postSlice';
 
-function UserList() {
-
-  const [userList,setUserList]=useState([])
-  const getUser=async()=>{
-    const list=await api.viewUserListAdmin()
-    setUserList(list.data)
+function PostList() {
+  const [postList,setPostList]=useState([])
+  const dispatch=useDispatch()
+  const {posts}=useSelector((state)=>({...state.post}))
+  const getPosts=async()=>{
+    const list=await api.getAdminPost()
+    console.log(list);
+    setPostList(list.data.feeds)
   }
-  const userChangeStatus=(id,status)=>{
+  const changeStat=(postId,stat)=>{
     Swal.fire({
       title: 'Are you sure?',
       text: "Going to Change Status!",
@@ -29,17 +33,12 @@ function UserList() {
       confirmButtonText: 'Yes'
     }).then(async (result) => {
       if (result.isConfirmed) {
-       await api.changeStatusUser(id,status).then(async(data)=>{
+       dispatch(changeStatus({postId,stat})).then(async(data)=>{
           Swal.fire({  
             title: 'Success',  
             type: 'success',
             text: 'Status Updated ',  
           }); 
-          await api.viewUserListAdmin().then(({data})=>{
-            setUserList(data)
-            }).catch((err)=>{
-              
-            })
         }).catch((err)=>{
           Swal.fire({  
             icon: 'error',  
@@ -53,7 +52,7 @@ function UserList() {
   }
 
 
-    const deleteUser=(userId)=>{
+    const deletePosts=(postId)=>{
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -64,18 +63,12 @@ function UserList() {
       confirmButtonText: 'Yes, delete it!'
     }).then(async(result) => {
       if (result.isConfirmed) {
-        await api.adminDeleteUser(userId).then(async(data)=>{
+        dispatch(deletePost({postId})).then(async(data)=>{
           Swal.fire({  
             title: 'Success',  
             type: 'success',
-            text: 'User Deleted ',  
+            text: 'Post Deleted ',  
           }); 
-          await api.viewUserListAdmin().then(({data})=>{
-            setUserList(data)
-            }).catch((err)=>{
-             
-              console.log(err);
-            })
         }).catch((err)=>{
           Swal.fire({  
             icon: 'error',  
@@ -88,37 +81,41 @@ function UserList() {
   };
 
   useEffect(()=>{
-     getUser()  
-  },[])
+     getPosts() 
+  },[posts])
 
   return (
     <Grid container spacing={2} sx={{p:3}} marginTop={400}>
-        <Grid item xs={12}><Typography variant='h4'>User List</Typography></Grid>
+        <Grid item xs={12}><Typography variant='h4'>Post List</Typography></Grid>
         <Grid item xs={10}>
         <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650}} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>User Name</TableCell>
-            <TableCell align="right">User Email</TableCell>
-            <TableCell align="right">User Roll</TableCell>
+            <TableCell>Creator</TableCell>
+            <TableCell align="right">Roll</TableCell>
+            <TableCell align="right">Post</TableCell>
+            <TableCell align="right">Post Image</TableCell>
+            <TableCell align="right">Date</TableCell>
             <TableCell align="right">Status</TableCell>
             <TableCell align="right">Options</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {userList.map((user,index) => (
+          {postList.map((post,index) => (
             <TableRow
-              key={user._id}
+              key={post._id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {user.userName}
+                {post.postCreator}
               </TableCell>
-              <TableCell align="right">{user.userEmail}</TableCell>
-              <TableCell align="right">{user.userRoll}</TableCell>
-              <TableCell align="right">{user.blocked?<Box onClick={()=>{userChangeStatus(user._id,user.blocked)}}><Typography style={{color:'red'}}>Blocked</Typography></Box>:<Box onClick={()=>{userChangeStatus(user._id,user.blocked)}}><Typography style={{color:'green'}}>Active</Typography></Box>}</TableCell>
-              <TableCell align="right"><Button variant="contained" color="secondary" onClick={()=>deleteUser(user._id)}>Delete</Button></TableCell>
+              <TableCell align="right">{post.creatorType}</TableCell>
+              <TableCell align="right">{post.post}</TableCell>
+              <TableCell align="right">{post.postImage?<img style={{width:50,height:50}} src={"http://localhost:5000/post-images/"+post.postImage}/>:"No image"}</TableCell>
+              <TableCell align="right">{post.postDate}</TableCell>
+              <TableCell align="right">{post.blocked?<Box onClick={()=>{changeStat(post._id,post.blocked)}}><Typography style={{color:'red'}}>Blocked</Typography></Box>:<Box onClick={()=>{changeStat(post._id,post.blocked)}}><Typography style={{color:'green'}}>Active</Typography></Box>}</TableCell>
+              <TableCell align="right"><Button variant="contained" color="secondary" onClick={()=>deletePosts(post._id)}>Delete</Button></TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -130,4 +127,4 @@ function UserList() {
   ) 
 }
 
-export default UserList
+export default PostList

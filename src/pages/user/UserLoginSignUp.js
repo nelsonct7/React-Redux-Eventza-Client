@@ -3,20 +3,17 @@ import {useNavigate} from 'react-router-dom'
 import Navbar from '../../components/Navbar'
 import LoginSignup from '../../components/user/LoginSignup'
 import {Grid} from '@mui/material'
+import {useSelector,useDispatch} from 'react-redux'
 const UserLoginSignUp = () => {
+  const dispatch=useDispatch()
   const navigate=useNavigate()
+  const {loading,userRedux,companyRedux,adminRedux,error} =useSelector((state)=>({...state.auth}))
   useEffect(()=>{
-    const isAdmin=localStorage.getItem('adminProfile')
-    const isUser=localStorage.getItem('profile')
-    const isCompany=localStorage.getItem('company')
-    if(isUser){
-      navigate('/')
-    }else if(isAdmin){
-      navigate('/adminhome')
-    }else if(isCompany){
-      navigate('/vendorhome') 
-    }
+    userRedux && navigate('/')
+    companyRedux && navigate('/vendorhome')
+    adminRedux && navigate('/adminhome')
   })
+
 
   return (
     <>

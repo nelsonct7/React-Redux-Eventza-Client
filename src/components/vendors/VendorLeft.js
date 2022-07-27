@@ -9,12 +9,14 @@ import SummarizeRoundedIcon from '@mui/icons-material/SummarizeRounded';
 import LogoutIcon from '@mui/icons-material/Logout';
 import React from 'react'
 import {useNavigate} from 'react-router-dom'
+import {useSelector,useDispatch} from 'react-redux'
+import { vendorLogout } from '../../store/features/authSlice';
 
 function VendorLeft() {
+  const dispatch=useDispatch()
   const navigate=useNavigate()
   const handleLogout=()=>{
-    localStorage.removeItem('company')
-    navigate('/loginas')
+    dispatch(vendorLogout({navigate}))
   }
   return (
     <Box flex={1} sx={{display:{xs:'none',sm:'block',m:2}}}>

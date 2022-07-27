@@ -42,7 +42,7 @@ if(admin===""){
 setAdminError('This field is required')
 return false
 }else{
-  setAdminPasswordError('')
+  setAdminError('')
   return true
 }
 }
@@ -67,10 +67,14 @@ if(!validAdmin() || !validPassword()){
 setFormError('Please Fill up the form')
 }else{
   setFormError("")
-  alert("Success")
   dispatch(adminLogin({formData,navigate}))
 }
 }
+
+useEffect(()=>{
+  error && setFormError(error)
+},[error])
+
   return (
     <Container sx={{
         marginTop: 2,
@@ -96,7 +100,7 @@ setFormError('Please Fill up the form')
           <Typography component="h1" variant="h3" color={'primary'}>
             Admin Log in
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required

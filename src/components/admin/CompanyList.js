@@ -86,10 +86,10 @@ function CompanyList() {
       }
     })
   };
-
   useEffect(()=>{
      getCompany() 
   },[])
+
 
   return (
     <Grid container spacing={2} sx={{p:3}} marginTop={400}>

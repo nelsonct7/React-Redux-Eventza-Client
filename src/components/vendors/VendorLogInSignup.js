@@ -33,7 +33,7 @@ const VendorLogInSignup = () => {
   
   const dispatch=useDispatch()
   const navigate=useNavigate()
-
+  const {loading,error} = useSelector((state)=>({...state.auth}))
     const validEmail=()=>{ 
       const {companyEmail}=formData
       if(companyEmail==='' || /^\s*$/.test(companyEmail)){
@@ -101,7 +101,7 @@ const VendorLogInSignup = () => {
       if(!validEmail() && !validPassword()){
         setisError('Please fill up the form')
       }else{
-        alert('succes')
+        setisError('')
         dispatch(vendorLogin({formData,navigate}))
       }
   
@@ -111,10 +111,6 @@ const VendorLogInSignup = () => {
       setFormData({...formData,[name]:value})
     }
   
-    const handleChange = (event) => {
-      setFormData({...formData,userRoll:event.target.value})
-    };
-  
     const handleSignupSubmit=(e)=>{
       e.preventDefault()
       if(!validCompanyName() || !validEmail() || !validPassword() ||  !validConPassword() ){
@@ -122,9 +118,13 @@ const VendorLogInSignup = () => {
       }else{
         setisError('')
         dispatch(vendorSignup({formData,navigate}))
-        alert('Success'+JSON.stringify(formData))
       }
     }
+    useEffect(()=>{
+      error && setisError(error)
+    },[error])
+
+
     return (
       <Container sx={{
         marginTop: 2,

@@ -14,6 +14,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import {useNavigate} from 'react-router-dom'
 import {useSelector,useDispatch} from 'react-redux'
 import { sidebarClick } from '../../store/features/clickSlice';
+import { adminLogout } from '../../store/features/authSlice';
 
 
 
@@ -21,8 +22,7 @@ const Sidebar = () => {
   const navigate=useNavigate()
   const dispatch=useDispatch()
   const handleLogout=()=>{
-    localStorage.removeItem('adminProfile') 
-    navigate('/adminlogin')
+    dispatch(adminLogout(navigate))
   }
 
   const handleClick=(stringValue)=>{

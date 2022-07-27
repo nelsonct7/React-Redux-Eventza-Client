@@ -27,6 +27,7 @@ const formValue={
 }
 
 function LoginSignup() {
+  const {loading,userRedux,companyRedux,adminRedux,error} =useSelector((state)=>({...state.auth}))
   const [isSignup,setIsSignup]=useState(false)
   const [formData,setFormData]=useState(formValue)
   const [emailError,setemailError]=useState('')
@@ -39,16 +40,15 @@ function LoginSignup() {
   
   const dispatch=useDispatch()
   const navigate=useNavigate()
-  const {loading,error} =useSelector((state)=>({...state.auth}))
   
 
 
   useEffect(()=>{
-    const profile=localStorage.getItem('profile')
-    setUser(JSON.parse(profile))
-    user && navigate('/')
+    userRedux && navigate('/')
+    adminRedux && navigate('/adminhome')
+    companyRedux && navigate('/vendorhome')
     
-  },[user])
+  },[userRedux,adminRedux,companyRedux])
   useEffect(()=>{
     error && setisError(error)
   },[error])
@@ -132,7 +132,6 @@ function LoginSignup() {
     if(!validEmail() && !validPassword()){
       setisError('Please fill up the form')
     }else{
-      alert('succes')
       dispatch(login({formData,navigate,toast}))
     }
 
@@ -153,7 +152,7 @@ function LoginSignup() {
     }else{
       setisError('')
       dispatch(signup({formData,navigate,toast}))
-      alert('Success'+JSON.stringify(formData))
+
     }
   }
 

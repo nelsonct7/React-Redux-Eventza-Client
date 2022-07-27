@@ -24,7 +24,6 @@ const clickSlice=createSlice({
             state.showDash=false
         },
         [sidebarClick.fulfilled]:(state,action)=>{
-        console.log(action.meta.arg);
         state.showDash=false
         state.showUser=false
         state.showManager=false

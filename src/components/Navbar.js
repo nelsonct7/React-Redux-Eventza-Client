@@ -3,6 +3,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import EmailIcon from '@mui/icons-material/Email';
 import {useSelector,useDispatch} from 'react-redux'
+import {useNavigate} from 'react-router-dom'
 import {
   AppBar,
   Toolbar,
@@ -19,6 +20,7 @@ import {
 import { Link } from "react-router-dom";
 import DrawerComponent from "./Drawer";
 import { Grid } from "@mui/material";
+import { userLogout } from "../store/features/authSlice";
 
 const useStyles = makeStyles((theme) => ({
   navlinks: {
@@ -43,36 +45,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Navbar(props) {
-  const {loading,error} =useSelector((state)=>({...state.auth}))
+  const {loading,userRedux,companyRedux,error} =useSelector((state)=>({...state.auth}))
+  const navigate=useNavigate()
   const [isOpen,setIsOpen]=useState(false)
-  const [user,setUser]=useState(null)
-  const [company,setCompany]=useState(null)
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const dispatch=useDispatch()
   let navColor=props.navColor
   const handleLogout=()=>{
-    if(user){
-      localStorage.removeItem('profile')
-      setUser(null)
-    }
-    if(company){
-      localStorage.removeItem('company')
-      setCompany(null)
+    if(userRedux){
+      dispatch(userLogout(navigate))
     }
     
   }
-
-  useEffect(()=>{
-    const profile=localStorage.getItem('profile')
-    const company=localStorage.getItem('company')
-    if(profile){
-      setUser(JSON.parse(profile))
-      
-    }else if(company){
-      setCompany(JSON.parse(company))
-    }
-  },[])
 
   // useEffect(()=>{
   //   if(user){
@@ -91,13 +77,13 @@ function Navbar(props) {
           <div style={{backgroundColor:'black',color:'white',borderRadius:20,marginRight:50}}>EZ</div>
           Eventza
         </Typography>
-        <Typography variant="h6">{user?user.userRoll:''}</Typography>
+        <Typography variant="h6">{userRedux?userRedux.userRoll:''}</Typography>
         {isMobile ? (
           <DrawerComponent />
         ) : (
           <div className={classes.navlinks}>
             <Link to=
-                    {(user && "/")||(company&&'/vendorhome')||('/')}  className={classes.link}>
+                    {(userRedux && "/")||(companyRedux&&'/vendorhome')||('/')}  className={classes.link}>
               <HomeIcon/>
             </Link>
             <Link to="/about" className={classes.link}>
@@ -106,7 +92,7 @@ function Navbar(props) {
             <Link to="/contact" className={classes.link}>
               <EmailIcon/>
             </Link>
-            {(user||company)?
+            {(userRedux||companyRedux)?
             
             <Grid container>
               <Grid item>
@@ -116,7 +102,7 @@ function Navbar(props) {
             onClick={e=>setIsOpen(true)}
             />
               </Grid>
-              <Grid item><Typography variant="h5" sx={{color:'white',p:2}}>{user?user.userName:company.companyName}</Typography></Grid>
+              <Grid item><Typography variant="h5" sx={{color:'white',p:2}}>{userRedux?userRedux.userName:companyRedux.companyName}</Typography></Grid>
             </Grid>
             
             
@@ -131,7 +117,7 @@ function Navbar(props) {
           </div>
         )}
         {
-          user?
+          userRedux?
           <Menu
         id="demo-positioned-menu"
         aria-labelledby="demo-positioned-button"
